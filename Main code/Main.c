@@ -1,51 +1,125 @@
 #include <stdio.h>
-#ifdef _WIN32
+#include <stdlib.h>
+#include <string.h>
 #include <windows.h>
-#else
-#include <unistd.h>
-#endif
-#define RED     "\033[1;31m"
-#define GREEN   "\033[1;32m"
-#define YELLOW  "\033[1;33m"
-#define BLUE    "\033[1;34m"
-#define MAGENTA "\033[1;35m"
-#define CYAN    "\033[1;36m"
-#define RESET   "\033[0m"
+#include "Vampire.h"
 
-typedef struct Victim {
-    int id;
-    char bloodType[10];
-    struct Victim* next;
-} Victim;
-
-static void wait_ms(int ms) {
-#ifdef _WIN32
+// Helper
+void wait_ms(int ms) {
     Sleep(ms);
-#else
-    usleep(ms * 1000);
-#endif
 }
 
 void loading() {
-    printf("Loading");
-    for(int i = 0; i < 3; i++) {
+    printf(RED "                        __.......__\n" RESET);
+    printf(RED "                      .-:::::::::::::-.\n" RESET);
+    printf(RED "                    .:::''':::::::''':::.\n" RESET);
+    printf(RED "                  .:::'     `:::'     `:::.\n" RESET);
+    printf(RED "             .'\\  ::'   ^^^  `:'  ^^^   '::\n" RESET);
+    printf(RED "            :   \\ ::   _.__       __._   :: /   ;\n" RESET);
+    printf(RED "           :     \\`: .' ___\\     /___ `. :'/     ;\n" RESET);
+    printf(RED "          :       /\\   (_|_)\\   /(_|_)   /\\       ;\n" RESET);
+    printf(RED "          :      / .\\   __.' ) ( `.__   /. \\      ;\n" RESET);
+    printf(RED "          :      \\ (        {   }        ) /      ;\n" RESET);
+    printf(RED "           :      `-(     .  ^\"^  .     )-'      ;\n" RESET);
+    printf(RED "            `.       \\  .'<`-._.-'>'.  /       .'\n" RESET);
+    printf(RED "              `.      \\    \\;`.';/    /      .'\n" RESET);
+    printf(RED "                `._    `-._       _.-'    _.'\n" RESET);
+    printf(RED "                 .'`-.__ .'`-._.-'`. __.-'`.\n" RESET);
+    printf(RED "               .'       `.         .'       `.\n" RESET);
+    printf(RED "             .'           `-.   .-'           `.\n" RESET);
+   
+   
+    printf(RED "                                                      ,---,          \n" RESET);
+    printf(RED "                                                   ,`--.' |          \n" RESET);
+    printf(RED "                                   ____            |   :  :          \n" RESET);
+    printf(RED "       ,---.                     ,'  , `.,-.----.  |   |  '          \n" RESET);
+    printf(RED "      /__./|                  ,-+-,.' _ |\\    /  \\ '   :  |          \n" RESET);
+    printf(RED " ,---.;  ; |               ,-+-. ;   , |||   :    |;   |.'.--.--.   \n" RESET);
+    printf(RED "/___/ \\  | |   ,--.--.    ,--.'|'   |  |||   | .\\ :'---' /  /    '  \n" RESET);
+    printf(RED "\\   ;  \\ ' |  /       \\  |   |  ,', |  |,.   : |: |     |  :  /`./  \n" RESET);
+    printf(RED " \\   \\  \\: | .--.  .-. | |   | /  | |--' |   |  \\ :     |  :  ;_    \n" RESET);
+    printf(RED "  ;   \\  ' .  \\__\\/: . . |   : |  | ,    |   : .  |      \\  \\    `. \n" RESET);
+    printf(RED "   \\   \\   '  ,  .--.; | |   : |  |/     :     |`-'       `----.   \\ \n" RESET);
+    printf(RED "    \\   `  ; /  /  ,.  | |   | |`-'      :   : :         /  /`--'  / \n" RESET);
+    printf(RED "     :   \\ |;  :   .'   \\|   ;/          |   | :        '--'.     /  \n" RESET);
+    printf(RED "      '---\\ |  ,     .-./'---'           `---'.|          `--'---'\n" RESET);
+    printf(RED "             `--`---'                      `---`                     \n" RESET);
+    printf(CYAN "\n                    ------- CONTROL SYSTEM -------\n\n" RESET);
+    printf(RED "\n                        Awakening the vampire...\n" RESET);
+    printf("  ");
+    for(int i = 0; i < 20; i++) {
         printf(".");
         fflush(stdout);
-        wait_ms(1000);
+        wait_ms(150);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
-int main(){
+void print_menu() {
     printf(CYAN "\n----------------------------\n" RESET);
-    printf(RED "   VAMPIRE CONTROL\n" RESET);
+    printf(RED  "      VAMPIRE CONTROL\n" RESET);
     printf(CYAN "============================\n" RESET);
-    printf("1. Add victim\n");
-    printf("2. Delete victim\n");
-    printf("3. Modify victim\n");
-    printf("4. Display victims\n");
-    printf("5. Calculate power\n");
-    printf("6. Exit\n");
+    printf(YELLOW "1." RESET " Add victim\n");
+    printf(YELLOW "2." RESET " Delete victim\n");
+    printf(YELLOW "3." RESET " Modify victim\n");
+    printf(YELLOW "4." RESET " Display all victims\n");
+    printf(YELLOW "5." RESET " Calculate total power\n");
+    printf(YELLOW "6." RESET " Exit\n");
     printf(CYAN "============================\n" RESET);
-    return 0;
+    printf("Choice: ");
+}
+
+// ── Main ─────────────────────────────────────────────
+int main() {
+    Victim* head = NULL;
+    int choice, id;
+    char name[20];
+    char bloodtype[3];
+
+    loading();
+
+    while(1) {
+        print_menu();
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                printf("Enter ID: ");
+                scanf("%d", &id);
+                printf("Enter name: ");
+                scanf("%s", name);
+                printf("Enter blood type (A/B/O/AB): ");
+                scanf("%s", bloodtype);
+                head = add_victim(head, id, name, bloodtype);
+                printf(GREEN "Victim added.\n" RESET);
+                break;
+
+            case 2:
+                printf("Enter ID to delete: ");
+                scanf("%d", &id);
+                head = delete_victim(head, id);
+                break;
+
+            case 3:
+                printf("Enter ID to modify: ");
+                scanf("%d", &id);
+                modify_victim(head, id);
+                break;
+
+            case 4:
+                display_victims(head);
+                break;
+
+            case 5:
+                printf(RED "Total vampire power: %d\n" RESET, calculate_power(head));
+                break;
+
+            case 6:
+                printf(RED "\n  The night is over...\n\n" RESET);
+                return 0;
+
+            default:
+                printf(YELLOW "Invalid choice. Try again.\n" RESET);
+        }
+    }
 }
