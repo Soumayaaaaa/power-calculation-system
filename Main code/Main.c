@@ -4,7 +4,6 @@
 #include <windows.h>
 #include "Vampire.h"
 
-// Helper
 void wait_ms(int ms) {
     Sleep(ms);
 }
@@ -47,6 +46,7 @@ void loading() {
     printf(CYAN "\n                    ------- CONTROL SYSTEM -------\n\n" RESET);
     printf(RED "\n                        Awakening the vampire...\n" RESET);
     printf("  ");
+    printf(RED "Starting vampire control" RESET);
     for(int i = 0; i < 20; i++) {
         printf(".");
         fflush(stdout);
@@ -69,29 +69,31 @@ void print_menu() {
     printf("Choice: ");
 }
 
-// ── Main ─────────────────────────────────────────────
 int main() {
     Victim* head = NULL;
-    int choice, id;
+    int choice;
+    int id;
     char name[20];
     char bloodtype[3];
 
     loading();
 
-    while(1) {
+    while (1) {
         print_menu();
         scanf("%d", &choice);
 
-        switch(choice) {
+        switch (choice) {
             case 1:
                 printf("Enter ID: ");
                 scanf("%d", &id);
+
                 printf("Enter name: ");
-                scanf("%s", name);
+                scanf("%19s", name);
+
                 printf("Enter blood type (A/B/O/AB): ");
-                scanf("%s", bloodtype);
+                scanf("%2s", bloodtype);
+
                 head = add_victim(head, id, name, bloodtype);
-                printf(GREEN "Victim added.\n" RESET);
                 break;
 
             case 2:
@@ -115,7 +117,8 @@ int main() {
                 break;
 
             case 6:
-                printf(RED "\n  The night is over...\n\n" RESET);
+                free_list(head);
+                printf(RED "\nThe night is over...\n\n" RESET);
                 return 0;
 
             default:
