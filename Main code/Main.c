@@ -88,7 +88,8 @@ int main() {
 
     while (1) {
         print_menu();
-        scanf("%d", &choice);
+       scanf("%d", &choice);
+     while(getchar() != '\n');
 
         switch (choice) {
             case 1:
