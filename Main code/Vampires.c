@@ -223,6 +223,37 @@ int calculate_power(Victim* head) {
     return total;
 }
 
+// save the linked list in a sequential text file
+void save_victims_to_file(Victim* head, char filename[]) {
+    FILE* file;
+    Victim* current = head;
+
+    file = fopen(filename, "w");
+
+    if (file == NULL) {
+        printf(RED "Error: could not create the file.\n" RESET);
+        return;
+    }
+
+    fprintf(file, "VAMPIRE VICTIMS LIST\n");
+    fprintf(file, "--------------------\n");
+
+    while (current != NULL) {
+        fprintf(file, "ID: %d | Name: %s | Blood: %s | Power: %d\n",
+                current->id,
+                current->name,
+                current->bloodtype,
+                blood_value(current->bloodtype));
+
+        current = current->next;
+    }
+
+    fprintf(file, "\nTotal vampire power: %d\n", calculate_power(head));
+
+    fclose(file);
+
+    printf(GREEN "Victims saved in the sequential file: %s\n" RESET, filename);
+}
 // we free the memory used by the linked list before exiting
 void free_list(Victim* head) {
     Victim* current = head;

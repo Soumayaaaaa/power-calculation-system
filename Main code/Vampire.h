@@ -35,6 +35,7 @@ void display_victims(Victim* head);
 
 //final project functions.
 int calculate_power(Victim* head);
+void save_victims_to_file(Victim* head, char filename[]);
 void free_list(Victim* head);
 
 #endif

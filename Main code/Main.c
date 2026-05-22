@@ -72,7 +72,8 @@ void print_menu() {
     printf(YELLOW "3." RESET " Modify victim\n");
     printf(YELLOW "4." RESET " Display all victims\n");
     printf(YELLOW "5." RESET " Calculate total power\n");
-    printf(YELLOW "6." RESET " Exit\n");
+    printf(YELLOW "6." RESET " Save victims to sequential file\n");
+    printf(YELLOW "7." RESET " Exit\n");
     printf(CYAN "============================\n" RESET);
     printf("Choice: ");
 }
@@ -81,7 +82,7 @@ int main() {
     Victim* head = NULL;
     int choice;
     int id;
-    char name[20];
+    char name[NAME_SIZE];
     char bloodtype[3];
 
     loading();
@@ -97,10 +98,10 @@ int main() {
                 scanf("%d", &id);
 
                 printf("Enter name: ");
-                scanf("%19s", name);
+                scanf(" %49[^\n]", name);
 
                 printf("Enter blood type (A/B/O/AB): ");
-                scanf("%2s", bloodtype);
+                scanf(" %2s", bloodtype);
 
                 head = add_victim(head, id, name, bloodtype);
                 break;
@@ -126,6 +127,10 @@ int main() {
                 break;
 
             case 6:
+                save_victims_to_file(head, "victims.txt");
+                break;
+
+            case 7:
                 free_list(head);
                 printf(RED "\nThe night is over...\n\n" RESET);
                 return 0;
