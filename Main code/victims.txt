@@ -1,6 +1,5 @@
 VAMPIRE VICTIMS LIST
 --------------------
-ID: 1 | Name: Mina Harker | Blood: AB | Power: 30
-ID: 2 | Name: Professor Van Helsing | Blood: O | Power: 40
+ID: 1234 | Name: pineapple | Blood: A | Power: 10
 
-Total vampire power: 70
+Total vampire power: 10
